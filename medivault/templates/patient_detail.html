@@ -1,0 +1,13 @@
+<h2>Patient Details</h2>
+<p><b>ID:</b> {{ patient.id }}</p>
+<p><b>Name:</b> {{ patient.name }}</p>
+<p><b>Age:</b> {{ patient.age }}</p>
+<p><b>Blood Group:</b> {{ patient.blood_group }}</p>
+<p><b>Disease:</b> {{ patient.disease }}</p>
+<p><b>Phone:</b> {{ patient.phone }}</p>
+<p><b>Allergies:</b> {{ patient.allergies }}</p>
+<p><b>Emergency Contact:</b> {{ patient.emergency_contact }}</p>
+
+<hr>
+<p>QR for this patient:</p>
+<img src="/generate_qr/{{ patient.id }}/" alt="QR">

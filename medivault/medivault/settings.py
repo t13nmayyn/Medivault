@@ -40,7 +40,8 @@ INSTALLED_APPS = [
     'accounts',
     'phonenumber_field',
     'core',
-    'ocr'
+    'ocr',
+    'emergency_access'
 
 ]
 

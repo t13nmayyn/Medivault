@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Medivault - Healthcare</title>
+  <link rel="stylesheet" href="main.css">
+  <!-- Font Awesome CDN -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+</head>
+
+<body>
+
+  <!-- HEADER -->
+  <header class="header">
+    <div class="container">
+
+      <!-- Logo + Brand -->
+      <h1 class="logo">
+        <img src="logo.jpg" alt="Medivault Logo" style="height:40px; vertical-align:middle; margin-right:8px;">
+        Medivault
+      </h1>
+
+      <!-- Hamburger button -->
+      <button class="hamburger" id="hamburger">
+        <i class="fa-solid fa-bars"></i>
+      </button>
+
+      <!-- Navigation -->
+      <nav class="navbar" id="navbar">
+        <a href="#hero">Home</a>
+        <a href="#about">About</a>
+        <a href="#departments">Features</a>
+        <a href="#testimonials">Testimonials</a>
+        <a href="#contact">Contact</a>
+        <a href="#" id="user_profile"><i class="fa-solid fa-user"></i> Profile</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- HERO -->
+  <section id="hero" class="hero">
+    <div class="hero-content">
+      <h2>A professional and friendly care provider.</h2>
+      <p>Secure your family’s health with our trusted services.</p>
+      <button class="btn" onclick="document.getElementById('departments').scrollIntoView({behavior:'smooth'})">Learn More</button>
+    </div>
+  </section>
+
+  <!-- ABOUT -->
+  <section id="about" class="about">
+    <div class="container">
+      <h2>About Us</h2>
+      <p>We are a trusted healthcare provider offering modern solutions for your family’s well-being.</p>
+    </div>
+  </section>
+
+  <!-- DEPARTMENTS -->
+  <section id="departments" class="departments">
+    <h2>Our All Features</h2>
+    <p>We provide a wide range of healthcare services.</p>
+    <div class="grid">
+      <div class="card">QR Report</div>
+      <div class="card">AI Health Agent</div>
+      <div class="card">Blood availability</div>
+      <div class="card">Update Anytime</div>
+      <div class="card">Link to hospital reports</div>
+      <div class="card">Secure Access</div>
+      <div class="card">Offline Mode</div>
+      <div class="card">More...</div>
+    </div>
+  </section>
+
+  <!-- TRUST -->
+  <section class="trust">
+    <div class="trust-text">
+      <h3>Trust us to be there to help all and make things well again.</h3>
+      <button class="btn" onclick="document.getElementById('doctors').scrollIntoView({behavior:'smooth'})">Read More</button>
+    </div>
+  </section>
+
+  <!-- DOCTORS -->
+  <section id="doctors" class="doctors">
+    <h2>Professional Care Provider</h2>
+    <div class="doctor-grid">
+      <div class="doctor-card">Chris Taylor</div>
+      <div class="doctor-card">Jonhson Alves</div>
+      <div class="doctor-card">Trisha Minsuka</div>
+      <div class="doctor-card">Khabala Jerry</div>
+      <div class="doctor-card">Charles Taylor</div>
+      <div class="doctor-card">Tristan Minsuka</div>
+    </div>
+  </section>
+
+  <!-- CALL TO ACTION -->
+  <section id="contact" class="cta">
+    <div class="cta-text">
+      <h2>We are always ready for a challenge.</h2>
+      <p>Call us: <strong>+01 658 647 46</strong></p>
+      <p>Email: <strong>Medivault@gmail.com</strong></p>
+    </div>
+  </section>
+
+  <!-- TESTIMONIALS -->
+  <section id="testimonials" class="testimonials">
+    <h2>Patient Testimonials</h2>
+    <div class="testimonial-grid">
+      <div class="testimonial">"Great experience, very professional."</div>
+      <div class="testimonial">"Worth it."</div>
+      <div class="testimonial">"Best for emergency services."</div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-col">
+        <h3>Medivault</h3>
+        <p>Trusted healthcare services.</p>
+      </div>
+      <div class="footer-col">
+        <h4>Quick Links</h4>
+        <ul>
+          <li>Home</li>
+          <li>About</li>
+          <li>Contact</li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Blog</h4>
+        <ul>
+          <li>Latest News</li>
+          <li>Health Tips</li>
+        </ul>
+      </div>
+    </div>
+    <p class="copyright">© 2025 Medivault. All rights reserved.</p>
+  </footer>
+
+  <!-- PROFILE MODAL -->
+  <div id="profileModal" class="modal">
+    <div class="modal-content">
+      <span class="close" id="closeModal">&times;</span>
+      <h3>User Profile</h3>
+      <p>Welcome to Medivault! Manage your account here.</p>
+      <button class="btn">Login</button>
+      <button class="btn">Register</button>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>

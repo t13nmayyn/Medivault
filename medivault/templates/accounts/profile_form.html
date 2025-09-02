@@ -1,4 +1,4 @@
-{% load static %}
+<!-- {% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -19,4 +19,26 @@
         <a href="{% url 'profile' %}" class="back-link">Back to Profile</a>
     </div>
 </body>
-</html>
+</html> -->
+
+{% extends "accounts/base.html" %}
+{% block title %}Update Profile — Medivault{% endblock %}
+
+{% block content %}
+<div class="max-w-xl mx-auto bg-white shadow-lg rounded-lg p-6">
+  <h2 class="text-xl font-semibold mb-4">{{ title }}</h2>
+
+  <form method="POST" enctype="multipart/form-data" class="space-y-4">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit" class="w-full bg-blue-600 hover:bg-blue-700 text-white py-2 rounded">
+      {{ button_text }}
+    </button>
+  </form>
+
+  <p class="mt-4 text-center">
+    <a href="{% url 'profile' %}" class="text-blue-600 hover:underline">Back to Profile</a>
+  </p>
+</div>
+{% endblock %}
+

@@ -1,22 +1,25 @@
 import os
-import base64
-import mimetypes
-from mistralai import Mistral
+from openai import OpenAI
 
-api_key = os.environ.get("MISTRAL_API_KEY")
-client = Mistral(api_key=api_key)
+# Load OpenAI API key from environment variable
+api_key = os.environ.get("OPENAI_API_KEY")
+if not api_key:
+    raise ValueError("⚠ Please set the OPENAI_API_KEY environment variable.")
 
-def run_ocr(file_path):
-    mime_type, _ = mimetypes.guess_type(file_path)
+client = OpenAI(api_key=api_key)
+
+
+def run_ocr(file_path: str) -> str:
+    """
+    Extract text from an uploaded document/image using OpenAI OCR (GPT-4o-mini).
+    """
     with open(file_path, "rb") as f:
-        encoded = base64.b64encode(f.read()).decode("utf-8")
+        response = client.chat.completions.create(
+            model="gpt-4o-mini",   # OCR + vision model
+            messages=[
+                {"role": "user", "content": "Extract all readable text from this image/document."}
+            ],
+            files={"image": f}  # send file directly
+        )
 
-    data_uri = f"data:{mime_type};base64,{encoded}"
-
-    response = client.ocr.process(
-        model="mistral-ocr-latest",
-        document={"type": "document_url", "document_url": data_uri},
-        include_image_base64=False
-    )
-
-    return "\n\n".join(page.markdown or page.text or "" for page in response.pages)
+    return response.choices[0].message.content.strip()

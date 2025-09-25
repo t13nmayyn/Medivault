@@ -1,40 +1,40 @@
- .login-box {
+ /* .login-box {
     max-width: 28rem;
     margin: 5rem auto;            /* center with spacing */
-    padding: 2rem;
+    /* padding: 2rem; */
     
-    background: rgba(176, 183, 188, 0.7); 
+    /* background: rgba(176, 183, 188, 0.7);  */
     /* White background with 70% opacity */
     
-    border-radius: 10px; 
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3); /* nice shadow */
-}
+    /* border-radius: 10px;  */
+    /* box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3); nice shadow */
+/* }
 .login-box h2, 
 .login-box label, 
 .login-box input, 
-.login-box button {
-    color: #222;  /* dark text */
-}
+.login-box button { */
+    /* color: #222;  dark text */
+/* } */
 
 
-
+/* 
 .login-heading {
   font-size: 1.5rem;
   font-weight: bold;
   margin-bottom: 1.5rem;
-}
- html, body {
-    height: 100vh;             /* full viewport height */
-    margin: 0;
+} */
+ /* html, body { */
+    /* height: 100vh;             full viewport height */
+    /* margin: 0;
     padding: 0;
-}
+} */
 
-body {
+/* body {
     background-image: url("../accounts/bg.jpg");
     background-size: cover;    /* make image cover entire area */
-    background-position: center;
-    background-attachment: fixed; /* optional: keeps image fixed while scrolling */
-    background-repeat: no-repeat;
+    /* background-position: center;
+    background-attachment: fixed; optional: keeps image fixed while scrolling  */
+    /* background-repeat: no-repeat;
 }
 
  .form-box {
@@ -45,5 +45,19 @@ body {
      background: rgba(255, 255, 255, 0.7); 
     border-radius: 8px;                
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2); 
+} */ 
+
+/* accounts/static/accounts/style.css */
+
+/* Example overrides for extra polish */
+input, select, textarea {
+  @apply w-full border rounded px-3 py-2 mt-1 focus:outline-none focus:ring-2 focus:ring-green-500;
 }
 
+label {
+  @apply block font-medium text-gray-700 mb-1;
+}
+
+.btn {
+  @apply bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded;
+}

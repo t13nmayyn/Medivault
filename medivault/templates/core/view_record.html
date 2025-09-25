@@ -1,4 +1,4 @@
-{% extends "core/base.html" %}
+{% comment %} {% extends "core/base.html" %}
 {% block title %}View Record{% endblock %}
 
 {% block content %}
@@ -18,4 +18,30 @@
   {% else %}
     <p>Record not found or access denied.</p>
   {% endif %}
+{% endblock %} {% endcomment %}
+
+{% extends "core/base.html" %}
+{% block title %}View Record — Medivault{% endblock %}
+
+{% block content %}
+<div class="mx-auto max-w-xl p-8 bg-white rounded-lg shadow-md">
+    <h2 class="text-2xl font-bold text-gray-800 mb-6">Record Details</h2>
+
+    {% if record %}
+    <div class="space-y-4">
+        <p><strong class="text-gray-600">Title:</strong> {{ record.title|default:"Untitled" }}</p>
+        <p><strong class="text-gray-600">Uploaded On:</strong> {{ record.uploaded_at|date:"M d, Y H:i" }}</p>
+        <p><strong class="text-gray-600">File:</strong>
+            <a href="{{ record.file.url }}" target="_blank" class="text-teal-500 hover:text-teal-700 font-medium">Download / View</a>
+        </p>
+    </div>
+
+    <form action="{% url 'delete_record' record.id %}" method="post" onsubmit="return confirm('Delete this record?');" class="mt-8">
+        {% csrf_token %}
+        <button type="submit" class="btn bg-red-500 hover:bg-red-600">Delete Record</button>
+    </form>
+    {% else %}
+    <p class="text-gray-500 text-center">Record not found or access denied.</p>
+    {% endif %}
+</div>
 {% endblock %}

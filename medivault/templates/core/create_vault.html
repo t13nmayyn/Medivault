@@ -1,4 +1,4 @@
-{% extends "core/base.html" %}
+{% comment %} {% extends "core/base.html" %}
 {% block content %}
 <h2>Create Vault</h2>
 <form method="post">{% csrf_token %}
@@ -6,4 +6,25 @@
   Password: <input type="password" name="vault_password" required><br>
   <button type="submit">Create</button>
 </form>
+{% endblock %} {% endcomment %}
+
+
+{% extends "core/base.html" %}
+{% block title %}Create Vault — Medivault{% endblock %}
+{% block content %}
+<div class="form-container">
+    <h2 class="form-title">Create Vault</h2>
+    <form method="post" class="space-y-4">
+        {% csrf_token %}
+        <div class="form-group">
+            <label for="id_vault_name">Vault Name</label>
+            <input type="text" name="vault_name" id="id_vault_name" required class="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-teal-500">
+        </div>
+        <div class="form-group">
+            <label for="id_vault_password">Password</label>
+            <input type="password" name="vault_password" id="id_vault_password" required class="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-teal-500">
+        </div>
+        <button type="submit" class="btn w-full">Create</button>
+    </form>
+</div>
 {% endblock %}

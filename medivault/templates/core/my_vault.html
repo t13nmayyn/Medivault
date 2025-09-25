@@ -1,4 +1,4 @@
-{% extends "core/base.html" %}
+{% comment %} {% extends "core/base.html" %}
 {% block title %}My Vault{% endblock %}
 
 {% block content %}
@@ -26,4 +26,37 @@
     {% endfor %}
   </ul>
 {% endblock %}
+ {% endcomment %}
 
+
+{% extends "core/base.html" %}
+{% block title %}My Vault{% endblock %}
+
+{% block content %}
+<div class="mx-auto max-w-2xl px-4">
+    <div class="flex justify-between items-center mb-6">
+        <h2 class="text-2xl font-bold text-gray-800">My Vault{% if vault %}: {{ vault.name }}{% endif %}</h2>
+        <a href="{% url 'upload_record' %}" class="btn">Upload New Record</a>
+    </div>
+
+    <ul class="space-y-4">
+        {% for rec in records %}
+        <li class="bg-white rounded-lg shadow-md p-4 flex justify-between items-center">
+            <div>
+                <strong class="text-lg font-semibold text-gray-700">{{ rec.title|default:"Untitled" }}</strong><br />
+                <small class="text-gray-500">Uploaded: {{ rec.uploaded_at|date:"M d, Y H:i" }}</small>
+            </div>
+            <div class="flex gap-2 items-center">
+                <a href="{% url 'view_record' rec.id %}" class="text-teal-500 hover:text-teal-700 font-medium">View</a>
+                <form action="{% url 'delete_record' rec.id %}" method="post" onsubmit="return confirm('Are you sure you want to delete this record?');">
+                    {% csrf_token %}
+                    <button type="submit" class="text-red-500 hover:text-red-700 font-medium">Delete</button>
+                </form>
+            </div>
+        </li>
+        {% empty %}
+        <li class="text-center text-gray-500 p-6 bg-white rounded-lg shadow-md">No records uploaded yet.</li>
+        {% endfor %}
+    </ul>
+</div>
+{% endblock %}

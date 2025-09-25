@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+{% comment %} <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -32,4 +32,40 @@
 
     <a href="{% url 'upload_document' %}">Upload New Document</a>
 </body>
-</html>
+</html> {% endcomment %}
+
+{% extends "ocr/base.html" %}
+{% block title %}My Uploads — Medivault{% endblock %}
+
+{% block content %}
+<div class="mx-auto max-w-2xl px-4">
+    <div class="flex justify-between items-center mb-6">
+        <h1 class="text-2xl font-bold text-gray-800">My Uploaded Documents</h1>
+        <a href="{% url 'upload_document' %}" class="btn">Upload New Document</a>
+    </div>
+
+    <ul class="space-y-4">
+        {% for doc in uploads %}
+        <li class="bg-white rounded-lg shadow-md p-4 flex justify-between items-center">
+            <div class="flex-1 min-w-0">
+                <strong class="text-lg font-semibold text-gray-700 truncate block">{{ doc.file.name }}</strong>
+                <small class="text-gray-500">Uploaded on {{ doc.uploaded_at|date:"M d, Y H:i" }}</small>
+            </div>
+            <div class="flex items-center gap-4 ml-4">
+                {% if doc.processed %}
+                    <span class="text-green-500 font-semibold">✅ Processed</span>
+                {% else %}
+                    <span class="text-yellow-500 font-semibold">⏳ Pending</span>
+                {% endif %}
+                <div class="flex gap-2">
+                    <a href="{% url 'view_uploads' doc.id %}" class="btn px-3 py-1">View</a>
+                    <a href="{% url 'delete_uploads' doc.id %}" class="btn bg-red-500 hover:bg-red-600 px-3 py-1" onclick="return confirm('Are you sure you want to delete this document?');">Delete</a>
+                </div>
+            </div>
+        </li>
+        {% empty %}
+        <li class="text-center text-gray-500 p-6 bg-white rounded-lg shadow-md">No documents uploaded yet.</li>
+        {% endfor %}
+    </ul>
+</div>
+{% endblock %}

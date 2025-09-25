@@ -1,4 +1,4 @@
-{% extends "core/base.html" %}
+{% comment %} {% extends "core/base.html" %}
 {% load qr_code %}
 
 {% block title %}Your Vault QR{% endblock %}
@@ -15,4 +15,23 @@
   </div>
 
   <a href="{% url 'view_vault'%}">Back to Vault</a>
+{% endblock %} {% endcomment %}
+
+{% extends "core/base.html" %}
+{% load qr_code %}
+
+{% block title %}Your Vault QR — Medivault{% endblock %}
+
+{% block content %}
+<div class="mx-auto max-w-md text-center p-8 bg-white rounded-lg shadow-md">
+    <h2 class="text-2xl font-bold text-gray-800 mb-4">Your Vault QR Code</h2>
+    <p class="text-gray-600 mb-6">Scan this to access your vault (if authorized):</p>
+
+    <div class="p-4 border border-gray-200 rounded-lg inline-block">
+        {% qr_from_text qr_url size="t" image_format="png" %}
+    </div>
+    
+    <p class="text-sm text-gray-500 mt-4">{{ qr_url }}</p>
+    <a href="{% url 'my_vault' %}" class="btn mt-8 inline-block">Back to My Vault</a>
+</div>
 {% endblock %}

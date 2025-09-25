@@ -1,28 +1,57 @@
-{% extends "accounts/base.html" %}
-{% block title %}Sign Up — GreenLink{% endblock %}
+{% comment %} {% extends "accounts/base.html" %}
+{% block title %}Sign Up — MediVault{% endblock %}
 
 {% block content %}
-<div class="form-box">
-  <h2 class="text-2xl font-semibold mb-6">Create Your Account</h2>
-  <form method="post" novalidate>
+<div class="w-full max-w-md bg-white shadow-lg rounded-xl p-6">
+  <h2 class="text-2xl font-semibold mb-6 text-center">Create Account</h2>
+
+  <form method="post" novalidate class="space-y-4">
     {% csrf_token %}
     {% for field in form %}
-      <div class="mb-4">
+      <div>
         {{ field.label_tag }}
         {{ field }}
-        {% if field.help_text %}
-          <p class="text-gray-500 text-sm">{{ field.help_text }}</p>
-        {% endif %}
         {% for error in field.errors %}
           <p class="text-red-600 text-sm">{{ error }}</p>
         {% endfor %}
       </div>
     {% endfor %}
-    <button type="submit" class="w-full bg-blue-600 hover:bg-blue-700 text-white py-2 rounded">Sign Up</button>
+    <button type="submit" class="w-full bg-green-600 hover:bg-green-700 text-white py-2 rounded">
+      Sign Up
+    </button>
   </form>
-  <p class="mt-4 text-center">
+
+  <p class="mt-4 text-center text-sm">
     Already have an account?
     <a href="{% url 'login' %}" class="text-blue-600 hover:underline">Log In</a>
   </p>
+</div> {% endcomment %}
+
+
+{% extends "accounts/base.html" %}
+{% block title %}Sign Up — Medivault{% endblock %}
+
+{% block content %}
+<div class="max-w-md mx-auto p-8 bg-white rounded-lg shadow-xl">
+    <h2 class="text-3xl font-bold text-center mb-6 text-gray-800">Create Account</h2>
+    <form method="post" novalidate class="space-y-6">
+        {% csrf_token %}
+        {% for field in form %}
+            <div class="form-group">
+                <label for="{{ field.id_for_label }}" class="text-gray-600">{{ field.label_tag }}</label>
+                {{ field }}
+                {% for error in field.errors %}
+                    <p class="text-red-500 text-sm mt-1">{{ error }}</p>
+                {% endfor %}
+            </div>
+        {% endfor %}
+        <button type="submit" class="btn w-full bg-teal-500 text-white hover:bg-teal-600">Sign Up</button>
+    </form>
+    <p class="mt-6 text-center text-sm text-gray-600">
+        Already have an account?
+        <a href="{% url 'login' %}" class="text-teal-500 hover:underline font-semibold">Log In</a>
+    </p>
 </div>
 {% endblock %}
+
+

@@ -1,37 +1,87 @@
-<!-- templates/accounts/profile.html -->
+{% comment %} {% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Your Profile</title>
-    {% load static %}
+    <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="{% static 'accounts/profile.css' %}">
 </head>
-<body>
-    <div class="container">
-        <h2>Your Profile</h2>
+<body class="bg-gray-100">
 
-        <div class="profile-card">
-            <div class="profile-image">
+    <!-- Navbar -->
+    <nav class="bg-white shadow-md p-4 flex justify-between items-center">
+        <a href="{% url 'home' %}" class="text-2xl font-bold text-blue-600">MyWebsite</a>
+        <div class="space-x-6">
+            <a href="{% url 'main' %}" class="hover:text-blue-600">Home</a>
+            <a href="{% url 'profile' %}" class="hover:text-blue-600 font-semibold">Profile</a>
+            <a href="{% url 'logout' %}" class="hover:text-red-600">Logout</a>
+        </div>
+    </nav>
+
+    <!-- Profile Section -->
+    <div class="container mx-auto mt-10 px-4">
+        <h2 class="text-3xl font-semibold text-center mb-8">Your Profile</h2>
+
+        <div class="bg-white shadow-lg rounded-2xl p-6 max-w-3xl mx-auto flex flex-col md:flex-row gap-6">
+            <!-- Profile Image -->
+            <div class="flex-shrink-0 flex justify-center">
                 {% if profile.profile_image %}
-                    <img src="{{ profile.profile_image.url }}" alt="Profile Image">
+                    <img src="{{ profile.profile_image.url }}" alt="Profile Image" class="w-40 h-40 object-cover rounded-full border-4 border-blue-500 shadow-md">
                 {% else %}
-                    <img src="{% static 'images/default_profile.jpg' %}" alt="Default Profile Image">
+                    <img src="{% static 'images/default_profile.jpg' %}" alt="Default Profile Image" class="w-40 h-40 object-cover rounded-full border-4 border-blue-500 shadow-md">
                 {% endif %}
             </div>
 
-            <div class="profile-details">
-                <p><strong>Full Name:</strong> {{ profile.full_name }}</p>
-                <p><strong>Username:</strong> {{ profile.user.username }}</p>
-                <p><strong>Email:</strong> {{ profile.user.email }}</p>
-                <p><strong>Mobile:</strong> {{ profile.mobile_number }}</p>
-                <p><strong>City:</strong> {{ profile.city }}</p>
-                <p><strong>Date of Birth:</strong> {{ profile.date_of_birth }}</p>
-                <p><strong>Bio:</strong> {{ profile.bio }}</p>
+            <!-- Profile Details -->
+            <div class="flex-1 space-y-3">
+                <p><span class="font-bold">Full Name:</span> {{ profile.full_name }}</p>
+                <p><span class="font-bold">Username:</span> {{ profile.user.username }}</p>
+                <p><span class="font-bold">Email:</span> {{ profile.user.email }}</p>
+                <p><span class="font-bold">Mobile:</span> {{ profile.mobile_number }}</p>
+                <p><span class="font-bold">City:</span> {{ profile.city }}</p>
+                <p><span class="font-bold">Date of Birth:</span> {{ profile.date_of_birth }}</p>
+                <p><span class="font-bold">Bio:</span> {{ profile.bio }}</p>
 
-                <a href="{% url 'update_profile' %}" class="btn">Edit Profile</a>
+                <a href="{% url 'update_profile' %}" 
+                   class="inline-block mt-4 bg-blue-600 text-white px-6 py-2 rounded-xl shadow hover:bg-blue-700 transition">
+                   Edit Profile
+                </a>
             </div>
         </div>
     </div>
 </body>
 </html>
+
+ {% endcomment %}
+
+
+{% extends "accounts/base.html" %}
+{% load static %}
+{% block title %}Your Profile — Medivault{% endblock %}
+
+{% block content %}
+<div class="container mx-auto mt-10 px-4">
+    <h2 class="text-3xl font-bold text-center mb-8 text-gray-800">Your Profile</h2>
+    <div class="bg-white shadow-xl rounded-2xl p-8 max-w-4xl mx-auto flex flex-col md:flex-row items-center md:items-start gap-8">
+        <div class="flex-shrink-0">
+            {% if profile.profile_image %}
+                <img src="{{ profile.profile_image.url }}" alt="Profile Image" class="w-40 h-40 object-cover rounded-full border-4 border-teal-500 shadow-md">
+            {% else %}
+                <img src="{% static 'images/default_profile.jpg' %}" alt="Default Profile Image" class="w-40 h-40 object-cover rounded-full border-4 border-teal-500 shadow-md">
+            {% endif %}
+        </div>
+        <div class="flex-1 space-y-4 text-center md:text-left">
+            <h3 class="text-2xl font-bold text-gray-800">{{ profile.full_name }}</h3>
+            <p><span class="font-semibold text-gray-600">Username:</span> {{ profile.user.username }}</p>
+            <p><span class="font-semibold text-gray-600">Email:</span> {{ profile.user.email }}</p>
+            <p><span class="font-semibold text-gray-600">Mobile:</span> {{ profile.mobile_number }}</p>
+            <p><span class="font-semibold text-gray-600">City:</span> {{ profile.city }}</p>
+            <p><span class="font-semibold text-gray-600">Date of Birth:</span> {{ profile.date_of_birth }}</p>
+            <p><span class="font-semibold text-gray-600">Bio:</span> {{ profile.bio }}</p>
+            <a href="{% url 'update_profile' %}" class="inline-block mt-4 btn bg-teal-500 text-white hover:bg-teal-600">Edit Profile</a>
+        </div>
+    </div>
+</div>
+{% endblock %}

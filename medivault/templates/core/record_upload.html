@@ -1,4 +1,4 @@
-{% extends "core/base.html" %}
+{% comment %} {% extends "core/base.html" %}
 {% block title %}Upload Record{% endblock %}
 {% block content %}
   <h2>Upload a Medical Record</h2>
@@ -7,4 +7,29 @@
     {{form.as_p}}
     <button type="submit">Upload</button>
   </form>
+{% endblock %} {% endcomment %}
+
+
+{% extends "core/base.html" %}
+{% block title %}Upload Record — Medivault{% endblock %}
+{% block content %}
+<div class="form-container">
+    <h2 class="form-title">Upload a New Record</h2>
+    <form method="post" enctype="multipart/form-data" class="space-y-4">
+        {% csrf_token %}
+        <div class="form-group">
+            <label for="{{ form.title.id_for_label }}">Title</label>
+            {{ form.title }}
+        </div>
+        <div class="form-group">
+            <label for="{{ form.description.id_for_label }}">Description</label>
+            {{ form.description }}
+        </div>
+        <div class="form-group">
+            <label for="{{ form.file.id_for_label }}">File</label>
+            {{ form.file }}
+        </div>
+        <button type="submit" class="btn w-full">Upload</button>
+    </form>
+</div>
 {% endblock %}

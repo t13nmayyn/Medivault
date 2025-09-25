@@ -23,7 +23,8 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('accounts/',include('accounts.urls')),
     path('vault/',include('core.urls')),
-    path('ocr/',include('ocr.urls'))
+    path('ocr/',include('ocr.urls')),
+    path("",include("main.urls")),
 ]
 
 if settings.DEBUG:

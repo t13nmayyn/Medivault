@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'core',
     'ocr',
     'qr_code',
+    'main',
 
 ]
 

@@ -1,39 +1,283 @@
-{% load static %}
-<link rel="stylesheet" href="{% static 'accounts/style.css' %}">
-<!DOCTYPE html>
+{% comment %} <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1">
-  <title>{% block title %}MyApp{% endblock %}</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{% block title %}MediVault{% endblock %}</title>
   <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body class="bg-gray-100 text-gray-800">
-  <nav class="bg-white shadow-md py-4">
-    <div class="container mx-auto px-4 flex justify-between">
-      {% comment %} <a href="{% url 'home' %}" class="text-2xl font-semibold">AgentBridge</a> {% endcomment %}
-      <div>
-        {% if user.is_authenticated %}
-          <a href="{% url 'logout' %}" class="px-4 py-2 hover:text-red-600">Logout</a>
-        {% else %}
-          <a href="{% url 'login' %}" class="px-4 py-2 hover:text-blue-600">Login</a>
-          <a href="{% url 'signup' %}" class="px-4 py-2 hover:text-blue-600">Sign Up</a>
-        {% endif %}
-      </div>
+<body class="bg-gray-100 min-h-screen flex flex-col">
+
+  <!-- Navbar -->
+  <nav class="bg-green-600 text-white p-4 flex justify-between items-center">
+    <a href="/" class="font-bold text-xl">MediVault</a>
+    <div>
+      {% if user.is_authenticated %}
+        <a href="{% url 'profile' %}" class="px-3 hover:underline">Profile</a>
+        <a href="{% url 'logout' %}" class="px-3 hover:underline">Logout</a>
+      {% else %}
+        <a href="{% url 'login' %}" class="px-3 hover:underline">Login</a>
+        <a href="{% url 'signup' %}" class="px-3 hover:underline">Signup</a>
+      {% endif %}
     </div>
   </nav>
-  
-  <main class="container mx-auto px-4 py-8">
-    {% if messages %}
-      <div class="space-y-2 mb-6">
-        {% for m in messages %}
-          <div class="rounded p-4 {% if m.tags %}bg-{{ m.tags }}-100 text-{{ m.tags }}-800{% else %}bg-blue-100 text-blue-800{% endif %}">
-            {{ m }}
-          </div>
-        {% endfor %}
-      </div>
-    {% endif %}
+
+  <!-- Page Content -->
+  <main class="flex-1 flex items-center justify-center p-6">
     {% block content %}{% endblock %}
   </main>
+
+  <!-- Footer -->
+  <footer class="bg-gray-800 text-white text-center py-3">
+    <p>&copy; 2025 MediVault. All Rights Reserved.</p>
+  </footer>
+</body>
+</html>
+ {% endcomment %}
+
+
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Medivault{% endblock %}</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <style>
+        /* Custom styles for consistency that aren't easy with pure Tailwind */
+        .header {
+            background-color: white;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            padding: 1rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+        .header .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1rem;
+        }
+        .logo {
+            display: flex;
+            align-items: center;
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #1a202c;
+        }
+        .navbar {
+            display: flex;
+            gap: 1.5rem;
+        }
+        .navbar a {
+            color: #4a5568;
+            font-weight: 600;
+            transition: color 0.3s;
+        }
+        .navbar a:hover {
+            color: #38b2ac;
+        }
+        .hamburger {
+            display: none;
+        }
+        .footer {
+            background-color: #2d3748;
+            color: white;
+            padding: 2rem 0;
+            text-align: center;
+        }
+        .footer .container {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1rem;
+            gap: 2rem;
+            text-align: left;
+        }
+        .footer h3, .footer h4 {
+            font-weight: bold;
+            margin-bottom: 0.75rem;
+        }
+        .footer ul {
+            list-style: none;
+            padding: 0;
+        }
+        .footer ul li a {
+            color: #a0aec0;
+            transition: color 0.3s;
+        }
+        .footer ul li a:hover {
+            color: white;
+        }
+        .copyright {
+            margin-top: 2rem;
+            border-top: 1px solid #4a5568;
+            padding-top: 1rem;
+            font-size: 0.875rem;
+        }
+        .modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            display: none; /* Hidden by default */
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+        .modal-content {
+            background-color: white;
+            padding: 2rem;
+            border-radius: 0.5rem;
+            text-align: center;
+            position: relative;
+            max-width: 400px;
+            width: 90%;
+        }
+        .close {
+            position: absolute;
+            top: 0.5rem;
+            right: 1rem;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: #4a5568;
+        }
+        .btn {
+            background-color: #38b2ac;
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border-radius: 0.25rem;
+            font-weight: bold;
+            transition: background-color 0.3s;
+            cursor: pointer;
+        }
+        .btn:hover {
+            background-color: #319795;
+        }
+        .form-group {
+            margin-bottom: 1rem;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: #4a5568;
+        }
+        .form-group input {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid #e2e8f0;
+            border-radius: 0.25rem;
+            transition: border-color 0.3s;
+        }
+        .form-group input:focus {
+            outline: none;
+            border-color: #38b2ac;
+        }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-800">
+
+    <header class="header">
+        <div class="container">
+            <h1 class="logo">
+                <img src="{% static 'main/logo.jpg' %}" alt="Medivault Logo" class="h-10 align-middle mr-2">
+                Medivault
+            </h1>
+            <button class="hamburger md:hidden block" id="hamburger">
+                <i class="fa-solid fa-bars text-xl"></i>
+            </button>
+            <nav class="navbar hidden md:flex" id="navbar">
+                <a href="{% url 'main' %}">Home</a>
+                <a href="{% url 'about' %}">About</a>
+                <a href="#departments">Features</a>
+                <a href="#testimonials">Testimonials</a>
+                <a href="{% url 'contact' %}">Contact</a>
+                <a href="#" id="user_profile" class="flex items-center gap-2"><i class="fa-solid fa-user"></i> Profile</a>
+            </nav>
+        </div>
+    </header>
+
+    <main class="py-12 px-4 min-h-screen">
+        {% block content %}{% endblock %}
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-col">
+                <h3 class="text-xl">Medivault</h3>
+                <p class="mt-2 text-gray-400">Trusted healthcare services.</p>
+            </div>
+            <div class="footer-col">
+                <h4 class="text-lg">Quick Links</h4>
+                <ul class="mt-2 space-y-2">
+                    <li><a href="{% url 'main' %}">Home</a></li>
+                    <li><a href="{% url 'about' %}">About</a></li>
+                    <li><a href="{% url 'contact' %}">Contact</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4 class="text-lg">Blog</h4>
+                <ul class="mt-2 space-y-2">
+                    <li>Latest News</li>
+                    <li>Health Tips</li>
+                </ul>
+            </div>
+        </div>
+        <p class="copyright text-gray-400">&copy; 2025 Medivault. All rights reserved.</p>
+    </footer>
+
+    <div id="profileModal" class="modal">
+        <div class="modal-content">
+            <span class="close" id="closeModal">&times;</span>
+            <h3 class="text-2xl font-bold mb-4">User Profile</h3>
+            <p class="mb-6">Welcome to Medivault! Manage your account here.</p>
+            <div class="flex flex-col sm:flex-row justify-center gap-4">
+                <a href="{% url 'login' %}">
+                    <button class="btn w-full">Login</button>
+                </a>
+                <a href="{% url 'signup' %}">
+                    <button class="btn w-full">Signup</button>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const hamburger = document.getElementById('hamburger');
+        const navbar = document.getElementById('navbar');
+        const profileLink = document.getElementById('user_profile');
+        const profileModal = document.getElementById('profileModal');
+        const closeModal = document.getElementById('closeModal');
+
+        hamburger.addEventListener('click', () => {
+            navbar.classList.toggle('hidden');
+            navbar.classList.toggle('flex');
+            navbar.classList.toggle('flex-col');
+        });
+
+        profileLink.addEventListener('click', (e) => {
+            e.preventDefault();
+            profileModal.style.display = 'flex';
+        });
+
+        closeModal.addEventListener('click', () => {
+            profileModal.style.display = 'none';
+        });
+
+        window.addEventListener('click', (e) => {
+            if (e.target === profileModal) {
+                profileModal.style.display = 'none';
+            }
+        });
+    </script>
 </body>
 </html>

@@ -1,0 +1,242 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Medivault{% endblock %}</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <style>
+        .header {
+            background-color: white;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            padding: 1rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+        .header .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1rem;
+        }
+        .logo {
+            display: flex;
+            align-items: center;
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #1a202c;
+        }
+        .navbar {
+            display: flex;
+            gap: 1.5rem;
+        }
+        .navbar a {
+            color: #4a5568;
+            font-weight: 600;
+            transition: color 0.3s;
+        }
+        .navbar a:hover {
+            color: #38b2ac;
+        }
+        .hamburger {
+            display: none;
+        }
+        .footer {
+            background-color: #2d3748;
+            color: white;
+            padding: 2rem 0;
+            text-align: center;
+        }
+        .footer .container {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1rem;
+            gap: 2rem;
+            text-align: left;
+        }
+        .footer h3, .footer h4 {
+            font-weight: bold;
+            margin-bottom: 0.75rem;
+        }
+        .footer ul {
+            list-style: none;
+            padding: 0;
+        }
+        .footer ul li a {
+            color: #a0aec0;
+            transition: color 0.3s;
+        }
+        .footer ul li a:hover {
+            color: white;
+        }
+        .copyright {
+            margin-top: 2rem;
+            border-top: 1px solid #4a5568;
+            padding-top: 1rem;
+            font-size: 0.875rem;
+        }
+        .btn {
+            background-color: #38b2ac;
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border-radius: 0.25rem;
+            font-weight: bold;
+            transition: background-color 0.3s;
+            cursor: pointer;
+        }
+        .btn:hover {
+            background-color: #319795;
+        }
+        .form-container {
+            max-width: 500px;
+            margin: 2rem auto;
+            padding: 2rem;
+            background-color: white;
+            border-radius: 0.75rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        .form-title {
+            font-size: 1.5rem;
+            font-weight: bold;
+            text-align: center;
+            margin-bottom: 1.5rem;
+            color: #1a202c;
+        }
+        .form-group {
+            margin-bottom: 1rem;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: #4a5568;
+        }
+        .form-group input, .form-group textarea {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid #e2e8f0;
+            border-radius: 0.25rem;
+            transition: border-color 0.3s;
+        }
+        .form-group input:focus, .form-group textarea:focus {
+            outline: none;
+            border-color: #38b2ac;
+        }
+        .form-error {
+            color: #e53e3e;
+            font-size: 0.875rem;
+            margin-top: 0.25rem;
+        }
+        .profile-pic {
+            width: 40px;
+            height: 40px;
+            border-radius: 9999px;
+            object-fit: cover;
+            border: 2px solid #38b2ac;
+        }
+        @media (max-width: 768px) {
+            .navbar {
+                display: none;
+                flex-direction: column;
+                width: 100%;
+                background-color: white;
+                box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+                position: absolute;
+                top: 60px;
+                left: 0;
+                padding: 1rem 0;
+            }
+            .navbar a {
+                padding: 0.75rem 1rem;
+                border-bottom: 1px solid #e2e8f0;
+            }
+            .hamburger {
+                display: block;
+            }
+        }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-800">
+
+    <header class="header">
+        <div class="container">
+            <h1 class="logo">
+                <img src="{% static 'main/logo.jpg' %}" alt="Medivault Logo" class="h-10 align-middle mr-2">
+                Medivault
+            </h1>
+            <button class="hamburger md:hidden block" id="hamburger">
+                <i class="fa-solid fa-bars text-xl"></i>
+            </button>
+            <nav class="navbar md:flex" id="navbar">
+                <a href="{% url 'main' %}">Home</a>
+                <a href="{% url 'my_vault' %}">My Vault</a>
+                <a href="{% url 'upload_document' %}">OCR Upload</a>
+                {% if request.user.is_authenticated %}
+                    <a href="{% url 'profile' %}" class="profile-link flex items-center gap-2">
+                        <img class="profile-pic" src="{% if request.user.profile.profile_image %}{{ request.user.profile.profile_image.url }}{% else %}{% static 'images/default_profile.jpg' %}{% endif %}" alt="{{ request.user.username }}">
+                        <span>{{ request.user.username }}</span>
+                    </a>
+                    <a href="{% url 'logout' %}" class="logout-btn">Logout</a>
+                {% else %}
+                    <a href="{% url 'login' %}">Login</a>
+                    <a href="{% url 'signup' %}">Sign Up</a>
+                {% endif %}
+            </nav>
+        </div>
+    </header>
+
+    <main class="py-12 px-4 min-h-screen">
+        <div class="container mx-auto">
+            {% if messages %}
+            <ul class="mb-4">
+                {% for msg in messages %}
+                <li class="p-3 my-2 rounded-md {% if msg.tags == 'success' %}bg-green-100 text-green-700{% elif msg.tags == 'error' %}bg-red-100 text-red-700{% endif %}">{{ msg }}</li>
+                {% endfor %}
+            </ul>
+            {% endif %}
+            {% block content %}{% endblock %}
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-col">
+                <h3 class="text-xl">Medivault</h3>
+                <p class="mt-2 text-gray-400">Trusted healthcare services.</p>
+            </div>
+            <div class="footer-col">
+                <h4 class="text-lg">Quick Links</h4>
+                <ul class="mt-2 space-y-2">
+                    <li><a href="{% url 'main' %}">Home</a></li>
+                    <li><a href="{% url 'about' %}">About</a></li>
+                    <li><a href="{% url 'contact' %}">Contact</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4 class="text-lg">Blog</h4>
+                <ul class="mt-2 space-y-2">
+                    <li>Latest News</li>
+                    <li>Health Tips</li>
+                </ul>
+            </div>
+        </div>
+        <p class="copyright text-gray-400">&copy; 2025 Medivault. All rights reserved.</p>
+    </footer>
+
+    <script>
+        const hamburger = document.getElementById('hamburger');
+        const navbar = document.getElementById('navbar');
+
+        hamburger.addEventListener('click', () => {
+            navbar.classList.toggle('hidden');
+        });
+    </script>
+</body>
+</html>

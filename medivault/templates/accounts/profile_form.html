@@ -1,22 +1,46 @@
-{% load static %}
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>{{ title }}</title>
-    <link rel="stylesheet" href="{% static 'css/profile.css' %}">
-</head>
-<body>
-    <div class="container">
-        <h2>{{ title }}</h2>
+{% comment %} {% extends "accounts/base.html" %}
+{% block title %}Edit Profile — MediVault{% endblock %}
 
-        <form method="POST" enctype="multipart/form-data" class="profile-form">
-            {% csrf_token %}
-            {{ form.as_p }}
-            <button type="submit" class="btn">{{ button_text }}</button>
-        </form>
+{% block content %}
+<div class="w-full max-w-md bg-white shadow-lg rounded-xl p-6">
+  <h2 class="text-2xl font-semibold mb-6 text-center">Edit Profile</h2>
 
-        <a href="{% url 'profile' %}" class="back-link">Back to Profile</a>
-    </div>
-</body>
-</html>
+  <form method="post" novalidate class="space-y-4">
+    {% csrf_token %}
+    {% for field in form %}
+      <div>
+        {{ field.label_tag }}
+        {{ field }}
+        {% for error in field.errors %}
+          <p class="text-red-600 text-sm">{{ error }}</p>
+        {% endfor %}
+      </div>
+    {% endfor %}
+    <button type="submit" class="w-full bg-green-600 hover:bg-green-700 text-white py-2 rounded">
+      Save Changes
+    </button>
+  </form>
+</div> {% endcomment %}
+
+
+{% extends "accounts/base.html" %}
+{% block title %}Edit Profile — Medivault{% endblock %}
+
+{% block content %}
+<div class="max-w-md mx-auto p-8 bg-white rounded-lg shadow-xl">
+    <h2 class="text-3xl font-bold text-center mb-6 text-gray-800">Edit Profile</h2>
+    <form method="post" novalidate class="space-y-6">
+        {% csrf_token %}
+        {% for field in form %}
+            <div class="form-group">
+                <label for="{{ field.id_for_label }}" class="text-gray-600">{{ field.label_tag }}</label>
+                {{ field }}
+                {% for error in field.errors %}
+                    <p class="text-red-500 text-sm mt-1">{{ error }}</p>
+                {% endfor %}
+            </div>
+        {% endfor %}
+        <button type="submit" class="btn w-full bg-teal-500 text-white hover:bg-teal-600">Save Changes</button>
+    </form>
+</div>
+{% endblock %}
